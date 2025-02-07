@@ -1,0 +1,89 @@
+[plantuml]
+.UML-Klassendiagramm für MathGoesRetro
+----
+class Admin {
+    - adminID: Integer
+    - username: String
+    - password: String
+    --
+    + approveHostProfile(hostID: Integer)
+    + approveTask(taskID: Integer)
+    + addTask(task: Task)
+    + deleteTask(taskID: Integer)
+    + manageUserProfiles()
+}
+
+class Host {
+    - hostID: Integer
+    - username: String
+    - password: String
+    - approved: Boolean
+    --
+    + suggestTask(newTask: Task)
+    + unlockAllLevels()
+    + viewPlayerProgress(playerID: Integer)
+}
+
+class Spieler {
+    - playerID: Integer
+    - username: String
+    - password: String
+    - maxLevel: Integer
+    - score: Integer
+    - gameHistory: List
+    --
+    + createProfile(username: String, password: String)
+    + updateProfile(newInfo: Map)
+    + deleteProfile()
+    + playGame(level: Integer)
+    + viewHighScores()
+    + viewProgress()
+}
+
+class Task {
+    - taskID: Integer
+    - question: String
+    - correctAnswer: String
+    - wrongAnswer1: String
+    - wrongAnswer2: String
+    - wrongAnswer3: String
+    - mathType: String
+    - difficultyLevel: String
+    - points: Integer
+    --
+    + editTask(newDetails: Map)
+    + deleteTask()
+}
+
+class Game {
+    - gameID: Integer
+    - gameName: String
+    - numOfLevels: Integer
+    - requiredNumOfAnswers: Integer
+    - mathType: String
+    - highScore: Integer
+    --
+    + startGame(playerID: Integer)
+    + endGame(playerID: Integer, score: Integer)
+    + unlockLevel(playerID: Integer, level: Integer)
+}
+
+class Highscore {
+    - highscoreID: Integer
+    - playerID: Integer
+    - score: Integer
+    - rank: Integer
+    --
+    + updateHighScore(playerID: Integer, newScore: Integer)
+    + viewTopScores(limit: Integer)
+}
+
+Admin --> Task : Manages
+Admin --> Host : Approves Profiles
+Host --> Task : Suggests
+Spieler --> Game : Plays
+Spieler --> Highscore : Views
+Host --> Highscore : Views
+Highscore --> Spieler : Tracks
+Spieler --> Task : Attempts
+----
